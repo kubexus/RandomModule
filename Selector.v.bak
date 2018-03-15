@@ -1,0 +1,63 @@
+module Selector (
+	input res,
+	input clk,
+	input din,
+	
+	output reg [NUM_OF_TAPS*5-1:0] taps,
+	output reg donebit
+
+);
+
+assign taps = {AND4, AND3, AND21, AND22, X4, X4, X2, X1};
+
+//reg [4*5-1:0] AND4;
+//reg [3*5-1:0] AND3;
+//reg [2*5-1:0] AND21, AND22;
+//reg [4:0] X4, X3, X2, X1;
+
+parameter NUM_OF_TAPS = 15;
+
+integer count;
+
+initial begin
+	done 		<= 1'b0;
+	count 	<= NUM_OF_TAPS*5-1;
+//	AND4 		<= {20{1'b0}};
+//	AND3 		<= {15{1'b0}};
+//	AND21 	<= {10{1'b0}};
+//	AND22 	<= {10{1'b0}};
+//	X4 		<= {5{1'b0}};
+//	X3 		<= {5{1'b0}};
+//	X2 		<= {5{1'b0}};
+//	X1 		<= {5{1'b0}};
+end
+
+always @ (posedge clk) begin
+	if (res) begin
+		done 		<= 1'b0;
+		count 	<= NUM_OF_TAPS*5-1;
+//		AND4 		<= {20{1'b0}};
+//		AND3 		<= {15{1'b0}};
+//		AND21 	<= {10{1'b0}};
+//		AND22 	<= {10{1'b0}};
+//		X4 		<= {5{1'b0}};
+//		X3 		<= {5{1'b0}};
+//		X2 		<= {5{1'b0}};
+//		X1 		<= {5{1'b0}};
+	end else begin
+		if (count >= 0 && count <= 4) begin
+			taps[count] <= din;
+			count <= count + 1;
+		end
+		if (count >= 5 && count < 9) begin
+			taps[count] <= din;
+			count <= count + 1;
+		end
+		if (count == 9) begin
+			taps[count} <= din;
+			
+		end
+	end
+end
+
+endmodule

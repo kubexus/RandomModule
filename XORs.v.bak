@@ -1,0 +1,51 @@
+module XORs (
+	input [NUM_OF_TAPS*5-1:0] bufor,
+	input [22:0] register,
+	output result
+);
+
+parameter NUM_OF_TAPS = 15;
+
+assign result = AND11;
+
+// 1AND(1)
+case (bufor[NUM_OF_TAPS*5-1-:5])
+	
+	5'h00 :	AND11 <= register[0]
+	5'h01 :	AND11 <= register[1]
+	5'h02 :	AND11 <= register[2]
+	5'h03 :	AND11 <= register[3]
+	5'h04 :	AND11 <= register[4]
+	5'h05 :	AND11 <= register[5]
+	5'h06 :	AND11 <= register[6]
+	5'h07 :	AND11 <= register[7]
+	5'h08 :	AND11 <= register[8]
+	5'h09 :	AND11 <= register[9]
+	5'h0a :	AND11 <= register[10]
+	5'h0b :	AND11 <= register[11]
+	5'h0c :	AND11 <= register[12]
+	5'h0d :	AND11 <= register[13]
+	5'h0e :	AND11 <= register[14]
+	5'h0f :	AND11 <= register[15]
+	                 
+	5'h10 :	AND11 <= register[16]
+	5'h11 :	AND11 <= register[17]
+	5'h12 :	AND11 <= register[18]
+	5'h13 :	AND11 <= register[19]
+	5'h14 :	AND11 <= register[20]
+	5'h15 :	AND11 <= register[21]
+	5'h16 :	AND11 <= register[22]
+	5'h17 :	AND11 <= register[23]
+	5'h18 :	AND11 <= register[24]
+	5'h19 :	AND11 <= register[25]
+	5'h1a :	AND11 <= register[26]
+	5'h1b :	AND11 <= register[27]
+	5'h1c :	AND11 <= register[28]
+	5'h1d :	AND11 <= register[29]
+	5'h1e :	AND11 <= register[30]
+	5'h1f :	AND11 <= register[31]
+
+
+endcase
+
+endmodule
