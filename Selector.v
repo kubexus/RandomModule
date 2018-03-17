@@ -14,13 +14,11 @@ reg 		finished; // zapisano wszystkie tapsy
 integer 	count;
 
 initial begin
-
 	done 		<= 1'b0;
 	count 	<= 1;
 	taps		<= {NUM_OF_TAPS*8{1'b0}};
 	occured	<= 1'b0;
 	finished	<= 1'b0;
-
 end
 
 always @ (posedge clk) begin

@@ -35,8 +35,6 @@ initial begin
 		@(negedge clk) take = 1'b0;
 		repeat (8) @(posedge clk);
 	end
-	
-	//$finish;
 end
 
 endmodule

@@ -4,7 +4,6 @@ reg clk,res,ena;
 wire done;
 wire [7:0] dout;
 
-
 PRNG lfsr(
 	.clk (clk),
 	.res (res),

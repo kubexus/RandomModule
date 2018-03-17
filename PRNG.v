@@ -1,22 +1,23 @@
 module PRNG (
-	input clk,
-	input	res,
-	input ena,
-	output reg [3:0] dout,
-	output reg done
+	input 				clk,
+	input					res,
+	input 				ena,
+	output reg [3:0] 	dout,
+	output reg 			done
 );
 
-reg [31:0] lfsr;
-reg [7:0] waiter;
-assign feedback 	= (lfsr[31] ^ lfsr[21] ^ lfsr[1] ^ lfsr[0]);
-reg [2:0] i;
+reg [31:0] 	lfsr;
+reg [7:0] 	waiter;
+reg [2:0] 	i;
+
+assign 		feedback 	= (lfsr[31] ^ lfsr[21] ^ lfsr[1] ^ lfsr[0]);
 
 initial begin
-	lfsr 		<= 32'h18469258;
-	dout		<= 5'h00;
-	waiter	<= 8'h00;
-	i 			<= 3'b000;
-	done 		<= 1'b0;
+	lfsr 			<= 32'h18469258;
+	dout			<= 5'h00;
+	waiter		<= 8'h00;
+	i 				<= 3'b000;
+	done 			<= 1'b0;
 end
 
 always @ (posedge clk) begin
