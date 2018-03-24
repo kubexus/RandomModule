@@ -8,6 +8,7 @@ wire result;
 
 XORs #(.NUM_OF_TAPS(15))xory (
 	.res			(res),
+	.clk			(clk),
 	.co_buf		(co_buf),
 	.register	(register),
 	.result 		(result)
@@ -20,16 +21,20 @@ initial begin
 	res = 1'b1;
 	repeat (4) #5 clk = ~clk;
 	#10 res = 1'b0;
-	forever #5 clk = ~clk;
+	forever begin
+		#5 clk = ~clk;
+	end
 end
 
 initial begin
 	@(negedge res);
-	repeat (8) begin
-		//#50 register = register + 1;
-		@(negedge clk) res = 1'b0;
-		//repeat (8) @(posedge clk);
-	end
+	#10 register = 15'b001101000101010 ;
+	#10 register = 15'b001010111101010 ;
+	#10 register = 15'b010001010101101 ;
+	#10 register = 15'b001011101011101 ;
+	#10 register = 15'b110111010100010 ;
+	#10 register = 15'b001101011101001 ;
+	#10 register = 15'b110010101001001 ;
 end
 
 endmodule

@@ -1,4 +1,5 @@
 module XORs #(parameter NUM_OF_TAPS = 15)(
+	input clk,
 	input res,
 	input [NUM_OF_TAPS*8-1:0] co_buf,	// co_buf wspolczynnikow
 	input [15:0] register,				// NLFSR
@@ -20,7 +21,7 @@ genvar i;
 generate
 for (i=NUM_OF_TAPS; i>0; i=i-1) 
 	begin: TAPSY
-	always @ (register) begin
+	always @ (posedge clk) begin
 		if (res) begin
 			TAPS[i] <= 1'b0;
 		end else begin
