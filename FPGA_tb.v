@@ -7,12 +7,7 @@ module FPGA_tb ();
 	wire found_smth;
 	wire startedmod;
 	
-FPGA #(
-	.NUM_OF_TAPS(6)		, 
-	.SIZE(8)					, 
-	.NUM_OF_MODULES(20)	, 
-	.SEED(1351)) 
-		efpega(
+FPGA efpega(
 			.clk (clk)						,
 			.start (start)					,
 	
@@ -25,11 +20,15 @@ initial begin
 	clk = 1'b0;
 	start = 1'b1;
 	repeat (4) #5 clk = ~clk;
-	#10 start = 1'b0;
+	start = 1'b0;
 	repeat (4) #5 clk = ~clk;
-	#10 start = 1'b1;
+	start = 1'b1;
 	forever begin
 		#5 clk = ~clk;
 	end
+	@(TX == 0) 
+	start = 1'b0;
+	$finish;
+	
 end
 endmodule

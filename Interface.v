@@ -1,4 +1,4 @@
-module Interface #(parameter NUM_OF_TAPS = 5, SIZE = 16, NUM_OF_MODULES = 20)(
+module Interface #(parameter NUM_OF_TAPS = 5, NUM_OF_MODULES = 20)(
 	input clk,
 	input [NUM_OF_MODULES*(NUM_OF_TAPS*8)-1:0] co_buf,	
 	input [NUM_OF_MODULES-1:0] found,
@@ -8,7 +8,6 @@ module Interface #(parameter NUM_OF_TAPS = 5, SIZE = 16, NUM_OF_MODULES = 20)(
 );
 
 reg [7:0] 	byte_out;
-reg			select;
 reg 			transmit_byte;
 
 reg [(NUM_OF_TAPS*8)-1:0] 	buff;
@@ -38,8 +37,7 @@ RS232_TRANSMITTER transmitter (
 );
 
 initial begin
-	byte_out		<= 8'h00;
-	select		<= 1'b0;
+	byte_out		<= 8'h11;
 	buff			<= {NUM_OF_TAPS{8'h00}};
 	which			<= 0;
 	transmit_byte		<= 1'b0;
@@ -69,25 +67,31 @@ always @ (posedge clk) begin
 		end
 		
 		SENDING: begin
-			if (tx_ready) begin
-				if (i == 0) begin
-					byte_out <= 8'hff;
-				end else begin
-					byte_out <= buff[i*8-1-:8];
+			if (buff	== {NUM_OF_TAPS{8'h00}} || buff[7:0] == 8'h00) begin
+				state <= RESET;
+			end else begin
+				if (tx_ready) begin
+					if (i == 0) begin
+						byte_out <= 8'hff;
+					end else begin
+						byte_out <= buff[i*8-1-:8];
+					end	
+					i 	<= i + 1;
 				end
-				i 	<= i + 1;
-			end
-			if (i == NUM_OF_TAPS + 1) begin
-				state			<= RESET;
-				res[which] 	<= 1'b1;
+				if (i == NUM_OF_TAPS + 1) begin
+					transmit_byte		<= 1'b0;
+					res[which] 			<= 1'b1;
+					i <= i + 1;
+				end
+				if (i == NUM_OF_TAPS + 2) begin
+					state					<= RESET;
+				end
 			end
 		end
 		
 		RESET: begin
-			transmit_byte		<= 1'b0;
 			res 			<= {NUM_OF_MODULES{1'b0}};
-			byte_out		<= 8'h00;
-			select		<= 1'b0;
+			byte_out		<= 8'h11;
 			buff			<= {NUM_OF_TAPS{8'h00}};
 			which			<= 0;
 			i				<= 1;

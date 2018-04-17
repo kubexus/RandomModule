@@ -1,4 +1,4 @@
-module FPGA #(parameter NUM_OF_TAPS = 6, SIZE = 8, NUM_OF_MODULES = 20, SEED = 1351) (
+module FPGA #(parameter NUM_OF_TAPS = 6, SIZE = 20, NUM_OF_MODULES = 20, SEED = 1351) (
 	input clk,
 	input start,
 	
@@ -19,7 +19,6 @@ assign startedmod = started[2];
 
 Interface #(
 			.NUM_OF_TAPS		(NUM_OF_TAPS)		, 
-			.SIZE					(SIZE)				, 
 			.NUM_OF_MODULES	(NUM_OF_MODULES)	)
 	interfejs (	
 		.clk		(clk)					,

@@ -32,19 +32,57 @@ always @ (posedge clk) begin
 	end
 	if (ena) begin
 		if (take && !finished) begin
-			if (din[2:0] != 3'b000) begin
-				count <= count + 1;
-				taps[count*8-1-:8] <= {5'b00000,din[2:0]};
-				if (din[2:0] == 7) // jezeli wystapila najwyzsza potega
+			if (din[4:0] != 5'b00000 && din[4:0] < 20) begin
+				case(count)
+					1:	begin
+						taps[count*8-1-:8] <= {3'b000,din[4:0]};
+						count <= count + 1;
+					end
+					
+					2: begin
+						if (din[4:0] != taps[4:0]) begin
+							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+							count <= count + 1;
+						end
+					end
+					
+					3: begin
+						taps[count*8-1-:8] <= {3'b000,din[4:0]};
+						count <= count + 1;
+					end
+					
+					4: begin
+						if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
+							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+							count <= count + 1;
+						end
+					end
+					
+					5: begin
+						if ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8]) begin
+							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+							count <= count + 1;
+						end
+					end
+					
+					6: begin
+						if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
+							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+							count <= count + 1;
+						end
+					end
+				endcase
+				
+				if (din[4:0] == 19) // jezeli wystapila najwyzsza potega
 					occured <= 1'b1;
-				if (count == NUM_OF_TAPS)
+				if (count == NUM_OF_TAPS + 1)
 					finished <= 1'b1;
 			end
 		end
 		if (finished && !done) begin
-			if (!occured) begin
-				taps[7:0] <= 8'b00000111; // 31 - maksymalna potega 
-			end
+//			if (!occured) begin
+//				taps[7:0] <= 8'b00001111; // 31 - maksymalna potega 
+//			end
 			done <= 1'b1;
 		end
 	end

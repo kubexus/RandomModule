@@ -12,33 +12,37 @@ module NLFSR #(parameter SIZE = 16)(
 	
 );
 
-parameter period = (2**SIZE);
+wire feedback1 = feedback ^ state[0];
+
+parameter period = (2**SIZE) - 1;
 integer i;
+
+parameter INIT_VAL = {1'b1,{SIZE-1{1'b0}}};
 
 initial begin
 	i <= 0;
-	state <= {SIZE{1'b1}};
+	state <= INIT_VAL;
 	failure <= 1'b0;
 	found 	<= 1'b0;
 end
 
 always @ (posedge clk) begin
 	if (res) begin
-		state 	<= {SIZE{1'b1}};
+		state 	<= INIT_VAL;
 		found 	<= 1'b0;
 		failure 	<= 1'b0;
 		i 			<= 0;
 	end
 	if (ena && selector_done) begin
 		if (!found && !failure) begin
-			state <= {feedback^state[0],state[SIZE-1:1]};
+			state <= {feedback1,state[SIZE-1:1]};
 			i <= i + 1;
 		end
-		if (state == {SIZE{1'b1}} && !found) begin
+		if (state == INIT_VAL && !found && !failure) begin
 			if (i == period) begin
 				found <= 1'b1;  // ZNALEZIONO PELNY OKRES
 			end
-			if (i < period && i > 5) begin
+			if (i > 5 && i < period) begin
 				failure <= 1'b1;
 			end
 		end

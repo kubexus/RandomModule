@@ -57,7 +57,6 @@ XORs #(
 );
 
 NLFSR #(.SIZE(SIZE) ) nlfsr (
-
 	.clk				(clk)			,
 	.res				(res)			,
 	.ena				(ena)			,
@@ -66,8 +65,6 @@ NLFSR #(.SIZE(SIZE) ) nlfsr (
 	.found			(found)		,
 	.failure			(failure)	,
 	.state			(nlfsr_reg)	
-
-
 );
 
 always @ (posedge clk) begin

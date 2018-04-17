@@ -13,13 +13,14 @@ assign result = (TAPS[6] & TAPS[5] ) ^ TAPS[4] ^ TAPS[3] ^ TAPS[2] ^  TAPS[1];
 						
 initial begin
 	TAPS <= {NUM_OF_TAPS{1'b0}};
+	//result <= 1'b0;
 end
 
 genvar i;
 generate
 for (i = 1; i <= NUM_OF_TAPS; i = i + 1) 
 	begin: TAPSY
-	always @ (posedge clk) begin
+	always @ (*) begin
 		if (res) begin
 			TAPS[i] <= 1'b0;
 		end 
@@ -33,20 +34,27 @@ for (i = 1; i <= NUM_OF_TAPS; i = i + 1)
 				8'h05 :	TAPS[i] <= register[5];
 				8'h06 :	TAPS[i] <= register[6];
 				8'h07 :	TAPS[i] <= register[7];
-//				8'h08 :	TAPS[i] <= register[8];
-//				8'h09 :	TAPS[i] <= register[9];
-//				8'h0a :	TAPS[i] <= register[10];
-//				8'h0b :	TAPS[i] <= register[11];
-//				8'h0c :	TAPS[i] <= register[12];
-//				8'h0d :	TAPS[i] <= register[13];
-//				8'h0e :	TAPS[i] <= register[14];
-//				8'h0f :	TAPS[i] <= register[15];
-				default TAPS[i] <= register[7];
+				8'h08 :	TAPS[i] <= register[8];
+				8'h09 :	TAPS[i] <= register[9];
+				8'h0a :	TAPS[i] <= register[10];
+				8'h0b :	TAPS[i] <= register[11];
+				8'h0c :	TAPS[i] <= register[12];
+				8'h0d :	TAPS[i] <= register[13];
+				8'h0e :	TAPS[i] <= register[14];
+				8'h0f :	TAPS[i] <= register[15];
+				8'h10 :	TAPS[i] <= register[16];
+				8'h11 :	TAPS[i] <= register[17];
+				8'h12 :	TAPS[i] <= register[18];
+				8'h13 :	TAPS[i] <= register[19];
+				//default TAPS[i] <= register[15];
 			endcase
 		end
 	end
-
 end
 endgenerate
+
+//always @ (posedge clk) begin
+//	result <= (TAPS[6] & TAPS[5] ) ^ TAPS[4] ^ TAPS[3] ^ TAPS[2] ^  TAPS[1];
+//end
 
 endmodule
