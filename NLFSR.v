@@ -14,7 +14,7 @@ module NLFSR #(parameter SIZE = 16)(
 
 wire feedback1 = feedback ^ state[0];
 
-parameter period = (2**SIZE) - 1;
+parameter [35:0] period = (2**SIZE) - 1;
 integer i;
 
 parameter INIT_VAL = {1'b1,{SIZE-1{1'b0}}};
@@ -38,7 +38,7 @@ always @ (posedge clk) begin
 			state <= {feedback1,state[SIZE-1:1]};
 			i <= i + 1;
 		end
-		if (state == INIT_VAL && !found && !failure) begin
+		if (state == INIT_VAL) begin
 			if (i == period) begin
 				found <= 1'b1;  // ZNALEZIONO PELNY OKRES
 			end

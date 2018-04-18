@@ -32,7 +32,7 @@ always @ (posedge clk) begin
 	end
 	if (ena) begin
 		if (take && !finished) begin
-			if (din[4:0] != 5'b00000 && din[4:0] < 20) begin
+			if (din[4:0] != 5'b00000 && din[4:0] < 32) begin
 				case(count)
 					1:	begin
 						taps[count*8-1-:8] <= {3'b000,din[4:0]};
@@ -40,32 +40,46 @@ always @ (posedge clk) begin
 					end
 					
 					2: begin
-						if (din[4:0] != taps[4:0]) begin
-							taps[count*8-1-:8] <= {3'b000,din[4:0]};
-							count <= count + 1;
-						end
-					end
-					
-					3: begin
-						taps[count*8-1-:8] <= {3'b000,din[4:0]};
-						count <= count + 1;
-					end
-					
-					4: begin
 						if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
 							taps[count*8-1-:8] <= {3'b000,din[4:0]};
 							count <= count + 1;
 						end
 					end
 					
+					3: begin
+						if ( ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8])) begin
+							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+							count <= count + 1;
+						end
+					end
+					
+					4: begin
+							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+							count <= count + 1;
+					end
+					
 					5: begin
-						if ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8]) begin
+						if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
 							taps[count*8-1-:8] <= {3'b000,din[4:0]};
 							count <= count + 1;
 						end
 					end
 					
 					6: begin
+						if ( ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8])) begin
+							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+							count <= count + 1;
+						end
+					end
+					
+					7: begin
+						//if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
+							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+							count <= count + 1;
+						//end
+					end
+					
+					8: begin
 						if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
 							taps[count*8-1-:8] <= {3'b000,din[4:0]};
 							count <= count + 1;
@@ -73,8 +87,8 @@ always @ (posedge clk) begin
 					end
 				endcase
 				
-				if (din[4:0] == 19) // jezeli wystapila najwyzsza potega
-					occured <= 1'b1;
+				//if (din[4:0] == 19) // jezeli wystapila najwyzsza potega
+				//	occured <= 1'b1;
 				if (count == NUM_OF_TAPS + 1)
 					finished <= 1'b1;
 			end

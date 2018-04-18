@@ -31,7 +31,6 @@ end
 PRNG #(.SEED(SEED) ) generator (
 	.clk 		(clk)			,
 	.res 		(res)			,
-	.ena 		(ena)			,
 	.dout 	(temp1)		,
 	.done 	(temp2)
 );
