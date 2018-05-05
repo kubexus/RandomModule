@@ -27,13 +27,13 @@ wire tx_ready;
 reg [5:0] which;
 reg [5:0] i;
 
-RS232_TRANSMITTER transmitter (
-	.CLK		(clk),
-	.INIT		(jeden),
-	.DRL		(transmit),
-	.LOAD		(tx_ready),
-	.DIN		(byte_out),
-	.TX		(TX)
+Transmitter transmitter (
+	.clk		(clk),
+	.res		(jeden),
+	.drl		(transmit),
+	.load		(tx_ready),
+	.din		(byte_out),
+	.tx		(TX)
 );
 
 initial begin
@@ -73,17 +73,21 @@ always @ (posedge clk) begin
 				if (tx_ready) begin
 					if (i == 0) begin
 						byte_out <= 8'hff;
-					end else begin
+					end
+					if (i>0 && i<NUM_OF_TAPS+1) begin
 						byte_out <= buff[i*8-1-:8];
-					end	
+					end
+					if (i == NUM_OF_TAPS + 1) begin
+						byte_out <= 8'hfe;
+					end
 					i 	<= i + 1;
 				end
-				if (i == NUM_OF_TAPS + 1) begin
+				if (i == NUM_OF_TAPS + 2) begin
 					transmit_byte		<= 1'b0;
 					res[which] 			<= 1'b1;
 					i <= i + 1;
 				end
-				if (i == NUM_OF_TAPS + 2) begin
+				if (i == NUM_OF_TAPS + 3) begin
 					state					<= RESET;
 				end
 			end

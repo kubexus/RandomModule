@@ -1,4 +1,4 @@
-module SearchModule #(parameter NUM_OF_TAPS = 6, SIZE = 16, SEED = 13413515)(
+module SearchModule #(parameter NUM_OF_TAPS = 16, SIZE = 32, SEED = 13413515)(
 	input 			clk		,
 	input 			start		,
 	input				ext_res	,

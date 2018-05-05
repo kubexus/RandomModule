@@ -1,4 +1,4 @@
-module NLFSR #(parameter SIZE = 16)(
+module NLFSR #(parameter SIZE = 32)(
 
 	input 						clk,
 	input 						res,
@@ -15,7 +15,12 @@ module NLFSR #(parameter SIZE = 16)(
 wire feedback1 = feedback ^ state[0];
 
 parameter [35:0] period = (2**SIZE) - 1;
-integer i;
+parameter per1 = (2**SIZE) / 4;
+parameter per2 = (2**SIZE) / 2;
+
+reg [35:0] i;
+
+reg [SIZE-1:0] control1, control2;
 
 parameter INIT_VAL = {1'b1,{SIZE-1{1'b0}}};
 
@@ -24,6 +29,8 @@ initial begin
 	state <= INIT_VAL;
 	failure <= 1'b0;
 	found 	<= 1'b0;
+	control1 <= {SIZE{1'b0}};
+	control2 <= {SIZE{1'b0}};
 end
 
 always @ (posedge clk) begin
@@ -32,6 +39,8 @@ always @ (posedge clk) begin
 		found 	<= 1'b0;
 		failure 	<= 1'b0;
 		i 			<= 0;
+		control1 <= {SIZE{1'b0}};
+		control2 <= {SIZE{1'b0}};
 	end
 	if (ena && selector_done) begin
 		if (!found && !failure) begin

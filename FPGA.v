@@ -1,4 +1,4 @@
-module FPGA #(parameter NUM_OF_TAPS = 8, SIZE = 32, NUM_OF_MODULES = 30, SEED = 1351) (
+module FPGA #(parameter NUM_OF_TAPS = 6, SIZE = 11, NUM_OF_MODULES = 30, SEED = 1351) (
 	input clk,
 	input start,
 	
@@ -57,7 +57,7 @@ always @ (posedge clk) begin
 	
 	if (!start) begin
 		start_S <= 1'b1;
-	end else start_S <= 1'b0;
+	end
 	
 	if (found != {NUM_OF_MODULES{1'b0}}) begin
 		found_smth <= 1'b1;

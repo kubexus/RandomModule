@@ -32,60 +32,81 @@ always @ (posedge clk) begin
 	end
 	if (ena) begin
 		if (take && !finished) begin
-			if (din[4:0] != 5'b00000 && din[4:0] < 32) begin
+			if (din[4:0] != 5'b00000 && din[4:0] < SIZE) begin
 				case(count)
 					1:	begin
 						taps[count*8-1-:8] <= {3'b000,din[4:0]};
-						count <= count + 1;
+						//count <= count + 1;
 					end
 					
 					2: begin
 						if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
 							taps[count*8-1-:8] <= {3'b000,din[4:0]};
-							count <= count + 1;
+							//count <= count + 1;
 						end
 					end
 					
 					3: begin
-						if ( ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8])) begin
+						//if ( ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8])) begin
 							taps[count*8-1-:8] <= {3'b000,din[4:0]};
-							count <= count + 1;
-						end
-					end
-					
-					4: begin
-							taps[count*8-1-:8] <= {3'b000,din[4:0]};
-							count <= count + 1;
-					end
-					
-					5: begin
-						if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
-							taps[count*8-1-:8] <= {3'b000,din[4:0]};
-							count <= count + 1;
-						end
-					end
-					
-					6: begin
-						if ( ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8])) begin
-							taps[count*8-1-:8] <= {3'b000,din[4:0]};
-							count <= count + 1;
-						end
-					end
-					
-					7: begin
-						//if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
-							taps[count*8-1-:8] <= {3'b000,din[4:0]};
-							count <= count + 1;
+							//count <= count + 1;
 						//end
 					end
 					
-					8: begin
-						if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
+					4: begin
+						//if ( ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-3)*8-1-:8])) begin
 							taps[count*8-1-:8] <= {3'b000,din[4:0]};
-							count <= count + 1;
-						end
+							//count <= count + 1;
+						//end
 					end
+					
+					5:	begin
+						taps[count*8-1-:8] <= {3'b000,din[4:0]};
+						//count <= count + 1;
+					end
+					
+					6: begin
+						//if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
+							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+							//count <= count + 1;
+						//end
+					end
+					
+//					7: begin
+//						if ( ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8])) begin
+//							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+//							//count <= count + 1;
+//						end
+//					end
+//					
+//					8: begin
+//						if ( ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-3)*8-1-:8])) begin
+//							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+//							//count <= count + 1;
+//						end
+//					end
+//					
+//					9:	begin
+//						taps[count*8-1-:8] <= {3'b000,din[4:0]};
+//						//count <= count + 1;
+//					end
+//					
+//					10: begin
+//						if ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) begin
+//							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+//							//count <= count + 1;
+//						end
+//					end
+//					
+//					11: begin
+//						if ( ({3'b000,din[4:0]} != taps[(count-1)*8-1-:8]) && ({3'b000,din[4:0]} != taps[(count-2)*8-1-:8])) begin
+//							taps[count*8-1-:8] <= {3'b000,din[4:0]};
+//							//count <= count + 1;
+//						end
+//					end
 				endcase
+				
+				count <= count + 1;
 				
 				//if (din[4:0] == 19) // jezeli wystapila najwyzsza potega
 				//	occured <= 1'b1;
